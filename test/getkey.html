@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+  <script>
+		window.onload=function(){
+			if(document.addEventListener){
+				document.addEventListener("keydown",getKey,false);
+			}
+			else if(document.attachEvent){
+				document.attachEvent("keydown",getKey);
+			}
+		}
+		function getKey(evnt){
+			var theEvent=evnt?evnt:window.event;
+			document.writeln(theEvent.which);
+		}
+  </script>
+ </head>
+ <body>
+  
+ </body>
+</html>

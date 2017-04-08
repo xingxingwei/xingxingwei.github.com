@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+  <script>
+  /** 利用用户输入构建函数**/
+
+  function buildFunction(){//声明函数（只会创建一次）
+		var func=prompt("enter the function body:");//输入类似 return x+y
+		var q=prompt("enter value of x");
+		var w=prompt("enter value of y");
+
+		var op=new Function("x","y",func);//匿名函数（每次调用都会重构函数）
+		var aa=op(q,w);
+		alert(aa);
+	}
+
+ /** 函数作为参数传入另一个函数中**/
+function funcObject(x,y,z){
+	alert(z(x,y));
+}
+function testFunc(){
+	funcObject(3,4,function(x,y){return x*y });//函数字面量（只会创建一次，除了该函数被赋予一个变量外 与声明函数类似）
+}
+
+ /** 函数字面量在递归中的应用**/
+ function run(){
+	var addNum=function sumNumber(numArray,i,resultArray){//字面量的非匿名形式，此函数名称只能在函数内调用，因此它通常是没用的，专门为递归设计的
+		if(i==numArray.length){
+			return resultArray;
+		}
+		resultArray[0]+=Number(numArray[i]);
+		resultArray[1]+=numArray[i].toString();
+
+		i++;
+		
+		return sumNumber(numArray,i,resultArray);
+		//return addNum(numArray,i,resultArray);与上一条语句相同意思
+
+	}
+	var numArray=[3,4,3,8];
+	var resultArray=new Array(0,"");
+	var result=addNum(numArray,0,resultArray);//此处不能调用sumNumber
+
+	document.writeln(result[0]+"  "+result[1]);
+ }
+
+ /** 上例的等价形式**/
+
+
+ function run2(){
+	  function sumNumber2(numArray,i,resultArray){
+	if(i==numArray.length){
+		return resultArray;
+	}
+	resultArray[0]+=numArray[i];
+	resultArray[1]+=numArray[i].toString();
+
+	i++;
+
+	return sumNumber2(numArray,i,resultArray);
+ }
+	var numArray=[1,3,4,5];
+	var resultArray=new Array(0,'');
+	var result=sumNumber2(numArray,0,resultArray);
+
+	document.writeln(result[0]+"  "+result[1]);
+ }
+ /** 嵌套函数和闭包**/
+
+ function outFun(base){
+	var punc="!";
+	return function innerFun(ext){
+		return base+ext+punc;
+	}
+ }
+ function processNested(){
+	var baseString=outFun("hello ");
+	var extString=baseString("world");
+	alert(extString);
+ }
+
+/** 回调函数**/
+
+function checkColor(element,index,array){
+	return(element>=0&&element<256);
+}
+function checkSum(element,index,array){
+	return(element.length==3);
+}
+function testCallbacks(){
+	var colors=new Array();
+	colors[0]=[266,2,2];
+	colors[1]=[2,3,4];
+	colors[2]=[26,2,2];
+	colors[3]=[2,3,4];
+	var newcolors=new Array();
+	for(var i in colors){
+		 newcolors[i]=colors[i].filter(checkColor);
+	}
+	for(i=0;i<newcolors.length;i++){
+		document.writeln(newcolors[i]+"<br/>");
+	}
+	var lastcolors=newcolors.filter(checkSum);
+	document.writeln("<br/>");
+	for(i in lastcolors){
+		document.writeln(lastcolors[i]+"<br/>");
+	}
+	document.writeln(checkColor.length);//仅仅用于验证函数就是一个对象有length属性返回值是参数数量
+}
+
+/**匿名函数**/
+function fun1(obj,fun){
+	fun(obj);
+}
+function fun2(x){
+	alert(x);
+}
+function runfun(){
+fun1(1,fun2);
+}
+
+</script>
+ </head>
+ <body onload= runfun();>
+  
+ </body>
+</html>
